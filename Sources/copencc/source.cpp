@@ -13,19 +13,19 @@
 void* catchOpenCCException(void* (^block)()) {
     try {
         return block();
-    } catch (opencc::FileNotFound& ex) {
-        ccErrorno = CCErrorCodeFileNotFound;
-        return NULL;
-    } catch (opencc::InvalidFormat& ex) {
-        ccErrorno = CCErrorCodeInvalidFormat;
-        return NULL;
-    } catch (opencc::InvalidTextDictionary& ex) {
+    } catch (const opencc::InvalidTextDictionary& ex) {
         ccErrorno = CCErrorCodeInvalidTextDictionary;
         return NULL;
-    } catch (opencc::InvalidUTF8& ex) {
+    } catch (const opencc::InvalidFormat& ex) {
+        ccErrorno = CCErrorCodeInvalidFormat;
+        return NULL;
+    } catch (const opencc::InvalidUTF8& ex) {
         ccErrorno = CCErrorCodeInvalidUTF8;
         return NULL;
-    } catch (opencc::Exception& ex) {
+    } catch (const opencc::FileNotFound& ex) {
+        ccErrorno = CCErrorCodeFileNotFound;
+        return NULL;
+    } catch (const opencc::Exception& ex) {
         ccErrorno = CCErrorCodeUnknown;
         return NULL;
     }
@@ -103,3 +103,4 @@ void STLStringDestroy(STLString _Nonnull str) {
     auto string = static_cast<std::string*>(str);
     delete string;
 }
+

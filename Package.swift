@@ -45,10 +45,10 @@ let package = Package(
                 "src/UTF8StringSliceTest.cpp",
                 "src/UTF8UtilTest.cpp",
                 "deps/google-benchmark",
-                "deps/gtest-1.11.0",
-                "deps/pybind11-2.5.0",
+                "deps/googletest-1.15.0",
+                "deps/pybind11-2.13.1",
                 "deps/rapidjson-1.1.0",
-                "deps/tclap-1.2.2",
+                "deps/tclap-1.2.5",
                 
                 "src/CmdLineOutput.hpp",
                 "src/Config.hpp",
@@ -63,6 +63,8 @@ let package = Package(
                 // ???
                 "src/README.md",
                 "src/CMakeLists.txt",
+                "src/BUILD.bazel",
+                "src/opencc_config.h.in",
                 "deps/marisa-0.2.6/AUTHORS",
                 "deps/marisa-0.2.6/CMakeLists.txt",
                 "deps/marisa-0.2.6/COPYING.md",
@@ -75,7 +77,7 @@ let package = Package(
             ],
             cxxSettings: [
                 .headerSearchPath("src"),
-                .headerSearchPath("deps/darts-clone"),
+                .headerSearchPath("deps/darts-clone-0.32"),
                 .headerSearchPath("deps/marisa-0.2.6/include"),
                 .headerSearchPath("deps/marisa-0.2.6/lib"),
                 .define("ENABLE_DARTS"),
