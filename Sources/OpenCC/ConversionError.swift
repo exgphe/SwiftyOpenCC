@@ -22,15 +22,15 @@ public enum ConversionError: Error {
     
     init(_ code: CCErrorCode) {
         switch code {
-        case .fileNotFound:
+        case .FileNotFound:
             self = .fileNotFound
-        case .invalidFormat:
+        case .InvalidFormat:
             self = .invalidFormat
-        case .invalidTextDictionary:
+        case .InvalidTextDictionary:
             self = .invalidTextDictionary
-        case .invalidUTF8:
+        case .InvalidUTF8:
             self = .invalidUTF8
-        case .unknown, _:
+        case .Unknown, _:
             self = .unknown
         }
     }

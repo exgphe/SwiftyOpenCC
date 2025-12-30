@@ -6,25 +6,27 @@
 //
 
 import Foundation
-@preconcurrency import copencc
+import copencc
 
 class ConversionDictionary {
     
     let group: [ConversionDictionary]
     
-    let dict: CCDictRef
+    let dict: CCDict
     
     init(path: String) throws {
-        guard let dict = CCDictCreateMarisaWithPath(path) else {
-            throw ConversionError(ccErrorno)
+        let result = CCDict.createMarisaWithPath(path)
+        guard result.second == .None else {
+            throw ConversionError(result.second)
         }
         self.group = []
-        self.dict = dict
+        self.dict = result.first
     }
     
     init(group: [ConversionDictionary]) {
-        var rawGroup = group.map { $0.dict }
+        let rawGroup = group.map { $0.dict }
         self.group = group
-        self.dict = CCDictCreateWithGroup(&rawGroup, rawGroup.count)
+        self.dict = CCDict.createWithGroup(rawGroup, rawGroup.count)
     }
 }
+

@@ -26,7 +26,7 @@ class OpenCCTests: XCTestCase {
         for (name, opt) in testCases {
             let coverter = try ChineseConverter(options: opt)
             let input = testCase(name: name, ext: "in")
-            let converted = coverter.convert(input)
+            let converted = try! coverter.convert(input)
             let output = testCase(name: name, ext: "ans")
             XCTAssertEqual(converted, output, "Conversion \(name) fails")
         }
@@ -49,8 +49,26 @@ class OpenCCTests: XCTestCase {
                 _ = try! ChineseConverter(options: options)
             }
         }
-        _ = holder.convert("foo")
+        _ = try! holder.convert("foo")
     }
+    
+//    func testInvalidUTF8() throws {
+//        let converter = try ChineseConverter(options: [.traditionalize])
+//        
+//        // Create a string with invalid UTF-8 bytes
+//        // Using continuation bytes without a proper leading byte
+//        let invalidBytes: [UInt8] = [0x48, 0x65, 0x6C, 0x6C, 0x6F, 0x80, 0x81, 0x82]
+//        let invalidString = String(decoding: invalidBytes, as: UTF8.self)
+//        
+//        let result = try! converter.convert(invalidString)
+//        debugPrint(result)
+//        
+//        // Attempt to convert - should throw an error
+//        XCTAssertThrowsError(try converter.convert(invalidString)) { error in
+//            // Verify it's the expected error type for invalid UTF-8
+//            XCTAssertNotNil(error, "Expected an error for invalid UTF-8 input")
+//        }
+//    }
     
     func testConversionPerformance() throws {
         let cov = try converter(option: [.traditionalize, .twStandard, .twIdiom])
@@ -58,7 +76,7 @@ class OpenCCTests: XCTestCase {
         // 1.9 MB, 624k word
         let str = try String(contentsOf: url)
         measure {
-            _ = cov.convert(str)
+            _ = try! cov.convert(str)
         }
     }
 }

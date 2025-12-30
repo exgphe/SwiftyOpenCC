@@ -15,14 +15,18 @@ let package = Package(
             dependencies: ["copencc"],
             resources: [
                 .copy("Dictionary")
-            ]),
+            ],
+            swiftSettings: [.interoperabilityMode(.Cxx)]
+        ),
         .testTarget(
             name: "OpenCCTests",
             dependencies: ["OpenCC"],
             resources: [
                 .copy("benchmark"),
                 .copy("testcases"),
-            ]),
+            ],
+            swiftSettings: [.interoperabilityMode(.Cxx)]
+        ),
         .target(
             name: "copencc",
             exclude: [

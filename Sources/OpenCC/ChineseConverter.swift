@@ -51,13 +51,13 @@ public class ChineseConverter {
     private let seg: ConversionDictionary
     private let chain: [ConversionDictionary]
     
-    private let converter: CCConverterRef
+    private let converter: CCConverter
     
     private init(loader: DictionaryLoader, options: Options) throws {
         seg = try loader.segmentation(options: options)
         chain = try loader.conversionChain(options: options)
-        var rawChain = chain.map { $0.dict }
-        converter = CCConverterCreate("SwiftyOpenCC", seg.dict, &rawChain, rawChain.count)
+        let rawChain = chain.map { $0.dict }
+        converter = CCConverter.create("SwiftyOpenCC", seg.dict, rawChain, rawChain.count)
     }
     
     /// Returns an initialized `ChineseConverter` instance with the specified
@@ -74,10 +74,13 @@ public class ChineseConverter {
     ///
     /// - Parameter text: The string to convert.
     /// - Returns: A converted string using the convert’s current option.
-    public func convert(_ text: String) -> String {
-        let stlStr = CCConverterCreateConvertedStringFromString(converter, text)!
-        defer { STLStringDestroy(stlStr) }
-        return String(utf8String: STLStringGetUTF8String(stlStr))!
+    public func convert(_ text: String) throws -> String  {
+        let result = converter.convert(text)
+        if result.second == .None {
+            return String(result.first)
+        } else {
+            throw ConversionError(result.second)
+        }
     }
     
 }
