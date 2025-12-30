@@ -24,7 +24,7 @@ import copencc
 public class ChineseConverter {
     
     /// These constants define the ChineseConverter options.
-    public struct Options: OptionSet {
+    public struct Options: OptionSet, Sendable {
         
         public let rawValue: Int
         

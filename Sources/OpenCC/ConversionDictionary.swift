@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import copencc
+@preconcurrency import copencc
 
 class ConversionDictionary {
     
