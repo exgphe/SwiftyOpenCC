@@ -13,7 +13,7 @@ extension ChineseConverter {
     struct DictionaryLoader {
         
         private static let subdirectory = "Dictionary"
-        nonisolated(unsafe) private static let dictCache = NSCache<NSString, ConversionDictionary>()
+        nonisolated(unsafe) private static let dictCache = WeakValueCache<String, ConversionDictionary>()
         
         private let bundle: Bundle
         
@@ -25,12 +25,8 @@ extension ChineseConverter {
             guard let path = bundle.path(forResource: name.description, ofType: "ocd2", inDirectory: DictionaryLoader.subdirectory) else {
                 throw ConversionError.fileNotFound
             }
-            if let cachedDictionary = DictionaryLoader.dictCache.object(forKey: path as NSString) {
-                return cachedDictionary
-            } else {
-                let dictionary = try ConversionDictionary(path: path)
-                DictionaryLoader.dictCache.setObject(dictionary, forKey: path as NSString)
-                return dictionary
+            return try DictionaryLoader.dictCache.value(for: path) {
+                return try ConversionDictionary(path: path)
             }
         }
     }
