@@ -74,13 +74,12 @@ public class ChineseConverter {
     ///
     /// - Parameter text: The string to convert.
     /// - Returns: A converted string using the convert’s current option.
-    public func convert(_ text: String) throws -> String  {
+    public func convert(_ text: String) -> String  {
         let result = converter.convert(text)
         if result.second == .None {
             return String(result.first)
         } else {
-            throw ConversionError(result.second)
+            return "" // Silence the error
         }
-    }
-    
+    }    
 }

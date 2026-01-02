@@ -26,7 +26,7 @@ class OpenCCTests: XCTestCase {
         for (name, opt) in testCases {
             let coverter = try ChineseConverter(options: opt)
             let input = testCase(name: name, ext: "in")
-            let converted = try! coverter.convert(input)
+            let converted = coverter.convert(input)
             let output = testCase(name: name, ext: "ans")
             XCTAssertEqual(converted, output, "Conversion \(name) fails")
         }
@@ -49,7 +49,7 @@ class OpenCCTests: XCTestCase {
                 _ = try! ChineseConverter(options: options)
             }
         }
-        _ = try! holder.convert("foo")
+        _ = holder.convert("foo")
     }
     
 //    func testInvalidUTF8() throws {
@@ -76,7 +76,7 @@ class OpenCCTests: XCTestCase {
         // 1.9 MB, 624k word
         let str = try String(contentsOf: url)
         measure {
-            _ = try! cov.convert(str)
+            _ = cov.convert(str)
         }
     }
 }
